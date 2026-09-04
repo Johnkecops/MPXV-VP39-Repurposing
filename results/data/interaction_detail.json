@@ -1,0 +1,621 @@
+{
+  "Sinefungin": {
+    "GLN39": {
+      "hbond": 2,
+      "hydrophobic": 0,
+      "min_dist": 3.21
+    },
+    "LEU42": {
+      "hbond": 0,
+      "hydrophobic": 1,
+      "min_dist": 3.89
+    },
+    "GLY68": {
+      "hbond": 1,
+      "hydrophobic": 1,
+      "min_dist": 2.97
+    },
+    "ALA70": {
+      "hbond": 1,
+      "hydrophobic": 0,
+      "min_dist": 2.88
+    },
+    "PRO71": {
+      "hbond": 0,
+      "hydrophobic": 1,
+      "min_dist": 3.42
+    },
+    "GLY72": {
+      "hbond": 1,
+      "hydrophobic": 0,
+      "min_dist": 3.23
+    },
+    "ASP95": {
+      "hbond": 4,
+      "hydrophobic": 1,
+      "min_dist": 2.59
+    },
+    "GLY96": {
+      "hbond": 0,
+      "hydrophobic": 0,
+      "min_dist": 3.86
+    },
+    "ARG97": {
+      "hbond": 3,
+      "hydrophobic": 1,
+      "min_dist": 2.83
+    },
+    "ARG114": {
+      "hbond": 0,
+      "hydrophobic": 0,
+      "min_dist": 3.87
+    },
+    "PHE115": {
+      "hbond": 0,
+      "hydrophobic": 0,
+      "min_dist": 3.67
+    },
+    "VAL116": {
+      "hbond": 1,
+      "hydrophobic": 0,
+      "min_dist": 3.25
+    },
+    "ASP138": {
+      "hbond": 2,
+      "hydrophobic": 0,
+      "min_dist": 2.81
+    },
+    "VAL139": {
+      "hbond": 0,
+      "hydrophobic": 0,
+      "min_dist": 3.62
+    },
+    "ARG140": {
+      "hbond": 0,
+      "hydrophobic": 3,
+      "min_dist": 3.16
+    },
+    "LEU159": {
+      "hbond": 0,
+      "hydrophobic": 0,
+      "min_dist": 3.35
+    },
+    "LYS175": {
+      "hbond": 0,
+      "hydrophobic": 0,
+      "min_dist": 3.84
+    }
+  },
+  "STM957": {
+    "LYS41": {
+      "hbond": 1,
+      "hydrophobic": 0,
+      "min_dist": 3.12
+    },
+    "GLY68": {
+      "hbond": 0,
+      "hydrophobic": 2,
+      "min_dist": 3.49
+    },
+    "ALA70": {
+      "hbond": 1,
+      "hydrophobic": 0,
+      "min_dist": 3.33
+    },
+    "PRO71": {
+      "hbond": 0,
+      "hydrophobic": 1,
+      "min_dist": 3.72
+    },
+    "ASP95": {
+      "hbond": 0,
+      "hydrophobic": 0,
+      "min_dist": 3.48
+    },
+    "ARG97": {
+      "hbond": 1,
+      "hydrophobic": 0,
+      "min_dist": 3.27
+    },
+    "PHE115": {
+      "hbond": 0,
+      "hydrophobic": 0,
+      "min_dist": 3.55
+    },
+    "VAL116": {
+      "hbond": 0,
+      "hydrophobic": 0,
+      "min_dist": 3.53
+    },
+    "ASP138": {
+      "hbond": 1,
+      "hydrophobic": 0,
+      "min_dist": 3.32
+    },
+    "VAL139": {
+      "hbond": 0,
+      "hydrophobic": 2,
+      "min_dist": 3.72
+    },
+    "ARG140": {
+      "hbond": 3,
+      "hydrophobic": 2,
+      "min_dist": 2.93
+    },
+    "PRO148": {
+      "hbond": 0,
+      "hydrophobic": 0,
+      "min_dist": 3.78
+    },
+    "LYS175": {
+      "hbond": 1,
+      "hydrophobic": 0,
+      "min_dist": 2.97
+    },
+    "ARG177": {
+      "hbond": 1,
+      "hydrophobic": 0,
+      "min_dist": 2.96
+    },
+    "GLU207": {
+      "hbond": 1,
+      "hydrophobic": 0,
+      "min_dist": 3.36
+    }
+  },
+  "SGC0946": {
+    "GLY38": {
+      "hbond": 0,
+      "hydrophobic": 0,
+      "min_dist": 3.26
+    },
+    "GLN39": {
+      "hbond": 1,
+      "hydrophobic": 0,
+      "min_dist": 3.47
+    },
+    "LYS41": {
+      "hbond": 0,
+      "hydrophobic": 0,
+      "min_dist": 3.69
+    },
+    "LEU42": {
+      "hbond": 0,
+      "hydrophobic": 0,
+      "min_dist": 3.74
+    },
+    "ILE67": {
+      "hbond": 0,
+      "hydrophobic": 2,
+      "min_dist": 3.73
+    },
+    "GLY68": {
+      "hbond": 1,
+      "hydrophobic": 0,
+      "min_dist": 3.17
+    },
+    "ALA70": {
+      "hbond": 1,
+      "hydrophobic": 0,
+      "min_dist": 2.97
+    },
+    "PRO71": {
+      "hbond": 0,
+      "hydrophobic": 0,
+      "min_dist": 3.31
+    },
+    "ASP95": {
+      "hbond": 1,
+      "hydrophobic": 0,
+      "min_dist": 3.41
+    },
+    "ARG97": {
+      "hbond": 1,
+      "hydrophobic": 2,
+      "min_dist": 3.28
+    },
+    "ARG114": {
+      "hbond": 0,
+      "hydrophobic": 0,
+      "min_dist": 3.95
+    },
+    "PHE115": {
+      "hbond": 0,
+      "hydrophobic": 5,
+      "min_dist": 3.58
+    },
+    "VAL116": {
+      "hbond": 0,
+      "hydrophobic": 4,
+      "min_dist": 3.08
+    },
+    "ASP138": {
+      "hbond": 1,
+      "hydrophobic": 0,
+      "min_dist": 2.94
+    },
+    "VAL139": {
+      "hbond": 0,
+      "hydrophobic": 3,
+      "min_dist": 2.93
+    },
+    "ARG140": {
+      "hbond": 2,
+      "hydrophobic": 2,
+      "min_dist": 2.88
+    },
+    "LEU159": {
+      "hbond": 0,
+      "hydrophobic": 1,
+      "min_dist": 3.38
+    }
+  },
+  "SGC8158": {
+    "LYS41": {
+      "hbond": 2,
+      "hydrophobic": 0,
+      "min_dist": 2.97
+    },
+    "GLY68": {
+      "hbond": 0,
+      "hydrophobic": 0,
+      "min_dist": 3.65
+    },
+    "ALA70": {
+      "hbond": 1,
+      "hydrophobic": 0,
+      "min_dist": 3.27
+    },
+    "ASP95": {
+      "hbond": 0,
+      "hydrophobic": 0,
+      "min_dist": 3.51
+    },
+    "ARG97": {
+      "hbond": 1,
+      "hydrophobic": 0,
+      "min_dist": 3.38
+    },
+    "PHE115": {
+      "hbond": 0,
+      "hydrophobic": 0,
+      "min_dist": 3.81
+    },
+    "VAL116": {
+      "hbond": 0,
+      "hydrophobic": 0,
+      "min_dist": 3.35
+    },
+    "ASP138": {
+      "hbond": 0,
+      "hydrophobic": 0,
+      "min_dist": 3.47
+    },
+    "VAL139": {
+      "hbond": 0,
+      "hydrophobic": 0,
+      "min_dist": 3.75
+    },
+    "ARG140": {
+      "hbond": 0,
+      "hydrophobic": 1,
+      "min_dist": 3.37
+    },
+    "LEU159": {
+      "hbond": 0,
+      "hydrophobic": 0,
+      "min_dist": 3.7
+    },
+    "LYS175": {
+      "hbond": 1,
+      "hydrophobic": 0,
+      "min_dist": 2.85
+    },
+    "ARG177": {
+      "hbond": 1,
+      "hydrophobic": 0,
+      "min_dist": 3.47
+    },
+    "PHE180": {
+      "hbond": 0,
+      "hydrophobic": 0,
+      "min_dist": 3.95
+    },
+    "PRO202": {
+      "hbond": 0,
+      "hydrophobic": 0,
+      "min_dist": 3.9
+    },
+    "SER205": {
+      "hbond": 1,
+      "hydrophobic": 0,
+      "min_dist": 3.35
+    },
+    "ALA206": {
+      "hbond": 0,
+      "hydrophobic": 0,
+      "min_dist": 3.96
+    },
+    "GLU207": {
+      "hbond": 2,
+      "hydrophobic": 1,
+      "min_dist": 2.97
+    }
+  },
+  "SS148": {
+    "ILE67": {
+      "hbond": 0,
+      "hydrophobic": 0,
+      "min_dist": 3.92
+    },
+    "GLY68": {
+      "hbond": 0,
+      "hydrophobic": 0,
+      "min_dist": 3.52
+    },
+    "ALA70": {
+      "hbond": 1,
+      "hydrophobic": 0,
+      "min_dist": 3.11
+    },
+    "ILE94": {
+      "hbond": 0,
+      "hydrophobic": 0,
+      "min_dist": 3.89
+    },
+    "ASP95": {
+      "hbond": 3,
+      "hydrophobic": 1,
+      "min_dist": 2.92
+    },
+    "GLY96": {
+      "hbond": 0,
+      "hydrophobic": 0,
+      "min_dist": 3.75
+    },
+    "ARG97": {
+      "hbond": 1,
+      "hydrophobic": 1,
+      "min_dist": 3.25
+    },
+    "ARG114": {
+      "hbond": 0,
+      "hydrophobic": 0,
+      "min_dist": 3.62
+    },
+    "PHE115": {
+      "hbond": 0,
+      "hydrophobic": 0,
+      "min_dist": 3.48
+    },
+    "VAL116": {
+      "hbond": 3,
+      "hydrophobic": 0,
+      "min_dist": 3.03
+    },
+    "ASP138": {
+      "hbond": 1,
+      "hydrophobic": 0,
+      "min_dist": 3.07
+    },
+    "VAL139": {
+      "hbond": 0,
+      "hydrophobic": 1,
+      "min_dist": 3.33
+    },
+    "ARG140": {
+      "hbond": 1,
+      "hydrophobic": 0,
+      "min_dist": 3.4
+    },
+    "SER141": {
+      "hbond": 3,
+      "hydrophobic": 0,
+      "min_dist": 2.87
+    },
+    "ASN156": {
+      "hbond": 1,
+      "hydrophobic": 0,
+      "min_dist": 3.31
+    },
+    "LEU159": {
+      "hbond": 0,
+      "hydrophobic": 0,
+      "min_dist": 3.31
+    }
+  },
+  "S-adenosyl-L-methionine": {
+    "GLN39": {
+      "hbond": 1,
+      "hydrophobic": 0,
+      "min_dist": 3.06
+    },
+    "LEU42": {
+      "hbond": 0,
+      "hydrophobic": 1,
+      "min_dist": 3.49
+    },
+    "GLY68": {
+      "hbond": 1,
+      "hydrophobic": 1,
+      "min_dist": 2.89
+    },
+    "ALA70": {
+      "hbond": 1,
+      "hydrophobic": 0,
+      "min_dist": 2.87
+    },
+    "PRO71": {
+      "hbond": 0,
+      "hydrophobic": 0,
+      "min_dist": 3.44
+    },
+    "GLY72": {
+      "hbond": 0,
+      "hydrophobic": 0,
+      "min_dist": 3.68
+    },
+    "ASP95": {
+      "hbond": 3,
+      "hydrophobic": 1,
+      "min_dist": 2.7
+    },
+    "GLY96": {
+      "hbond": 0,
+      "hydrophobic": 0,
+      "min_dist": 3.94
+    },
+    "ARG97": {
+      "hbond": 3,
+      "hydrophobic": 1,
+      "min_dist": 2.84
+    },
+    "ARG114": {
+      "hbond": 0,
+      "hydrophobic": 0,
+      "min_dist": 3.95
+    },
+    "PHE115": {
+      "hbond": 0,
+      "hydrophobic": 0,
+      "min_dist": 3.69
+    },
+    "VAL116": {
+      "hbond": 1,
+      "hydrophobic": 0,
+      "min_dist": 3.29
+    },
+    "ASP138": {
+      "hbond": 1,
+      "hydrophobic": 0,
+      "min_dist": 2.82
+    },
+    "VAL139": {
+      "hbond": 0,
+      "hydrophobic": 1,
+      "min_dist": 3.72
+    },
+    "ARG140": {
+      "hbond": 0,
+      "hydrophobic": 3,
+      "min_dist": 3.1
+    },
+    "SER141": {
+      "hbond": 0,
+      "hydrophobic": 0,
+      "min_dist": 3.96
+    },
+    "LEU159": {
+      "hbond": 0,
+      "hydrophobic": 0,
+      "min_dist": 3.41
+    },
+    "LYS175": {
+      "hbond": 0,
+      "hydrophobic": 0,
+      "min_dist": 3.84
+    }
+  },
+  "S-adenosyl-L-homocysteine": {
+    "GLN39": {
+      "hbond": 1,
+      "hydrophobic": 0,
+      "min_dist": 3.37
+    },
+    "LEU42": {
+      "hbond": 0,
+      "hydrophobic": 2,
+      "min_dist": 3.74
+    },
+    "TYR66": {
+      "hbond": 1,
+      "hydrophobic": 0,
+      "min_dist": 3.29
+    },
+    "ILE67": {
+      "hbond": 0,
+      "hydrophobic": 0,
+      "min_dist": 3.96
+    },
+    "GLY68": {
+      "hbond": 1,
+      "hydrophobic": 1,
+      "min_dist": 2.94
+    },
+    "SER69": {
+      "hbond": 1,
+      "hydrophobic": 0,
+      "min_dist": 3.27
+    },
+    "ALA70": {
+      "hbond": 2,
+      "hydrophobic": 0,
+      "min_dist": 3.1
+    },
+    "PRO71": {
+      "hbond": 0,
+      "hydrophobic": 0,
+      "min_dist": 3.69
+    },
+    "GLY72": {
+      "hbond": 1,
+      "hydrophobic": 0,
+      "min_dist": 3.19
+    },
+    "ILE94": {
+      "hbond": 0,
+      "hydrophobic": 0,
+      "min_dist": 3.91
+    },
+    "ASP95": {
+      "hbond": 4,
+      "hydrophobic": 1,
+      "min_dist": 2.64
+    },
+    "GLY96": {
+      "hbond": 0,
+      "hydrophobic": 0,
+      "min_dist": 3.78
+    },
+    "ARG97": {
+      "hbond": 2,
+      "hydrophobic": 1,
+      "min_dist": 2.82
+    },
+    "ARG114": {
+      "hbond": 0,
+      "hydrophobic": 0,
+      "min_dist": 3.67
+    },
+    "PHE115": {
+      "hbond": 0,
+      "hydrophobic": 0,
+      "min_dist": 3.53
+    },
+    "VAL116": {
+      "hbond": 2,
+      "hydrophobic": 0,
+      "min_dist": 3.05
+    },
+    "ASP138": {
+      "hbond": 1,
+      "hydrophobic": 0,
+      "min_dist": 2.94
+    },
+    "VAL139": {
+      "hbond": 0,
+      "hydrophobic": 0,
+      "min_dist": 3.6
+    },
+    "ARG140": {
+      "hbond": 0,
+      "hydrophobic": 2,
+      "min_dist": 3.22
+    },
+    "LEU159": {
+      "hbond": 0,
+      "hydrophobic": 0,
+      "min_dist": 3.33
+    }
+  }
+}

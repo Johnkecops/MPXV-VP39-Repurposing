@@ -1,0 +1,446 @@
+{
+  "Kenny 2019 ligand efficiency": {
+    "doi": "10.1186/s13321-019-0330-2",
+    "valid": true,
+    "title": "The nature of ligand efficiency",
+    "journal": "J Cheminform",
+    "year": 2019,
+    "volume": "11",
+    "issue": "1",
+    "page": "8",
+    "authors": [
+      "Kenny PW"
+    ],
+    "pmid": "30706294"
+  },
+  "Eberhardt 2021 Vina 1.2": {
+    "doi": "10.1021/acs.jcim.1c00203",
+    "valid": true,
+    "title": "AutoDock Vina 1.2.0: New Docking Methods, Expanded Force Field, and Python Bindings",
+    "journal": "J. Chem. Inf. Model.",
+    "year": 2021,
+    "volume": "61",
+    "issue": "8",
+    "page": "3891-3898",
+    "authors": [
+      "Eberhardt J",
+      "Santos-Martins D",
+      "Tillack AF",
+      "Forli S"
+    ],
+    "pmid": "34278794"
+  },
+  "Trott 2010 Vina original": {
+    "doi": "10.1002/jcc.21334",
+    "valid": true,
+    "title": "AutoDock Vina: Improving the speed and accuracy of docking with a new scoring function, efficient optimization, and multithreading",
+    "journal": "J Comput Chem",
+    "year": 2009,
+    "volume": "31",
+    "issue": "2",
+    "page": "455-461",
+    "authors": [
+      "Trott O",
+      "Olson AJ"
+    ],
+    "pmid": "19499576"
+  },
+  "O'Boyle 2011 Open Babel": {
+    "doi": "10.1186/1758-2946-3-33",
+    "valid": true,
+    "title": "Open Babel: An open chemical toolbox",
+    "journal": "J Cheminform",
+    "year": 2011,
+    "volume": "3",
+    "issue": "1",
+    "page": "33",
+    "authors": [
+      "O'Boyle NM",
+      "Banck M",
+      "James CA",
+      "Morley C",
+      "Vandermeersch T",
+      "Hutchison GR"
+    ],
+    "pmid": "21982300"
+  },
+  "Kuriata 2018 CABS-flex 2.0": {
+    "doi": "10.1093/nar/gky356",
+    "valid": true,
+    "title": "CABS-flex 2.0: a web server for fast simulations of flexibility of protein structures",
+    "journal": "Nucleic Acids Research",
+    "year": 2018,
+    "volume": "46",
+    "issue": "W1",
+    "page": "W338-W343",
+    "authors": [
+      "Kuriata A",
+      "Gierut AM",
+      "Oleniecki T",
+      "Ciemny MP",
+      "Kolinski A",
+      "Kurcinski M",
+      "Kmiecik S"
+    ],
+    "pmid": "29762700"
+  },
+  "Kurcinski 2019 CABS-flex standalone": {
+    "doi": "10.1093/bioinformatics/bty685",
+    "valid": true,
+    "title": "CABS-flex standalone: a simulation environment for fast modeling of protein flexibility",
+    "journal": "Bioinformatics",
+    "year": 2018,
+    "volume": "35",
+    "issue": "4",
+    "page": "694-695",
+    "authors": [
+      "Kurcinski M",
+      "Oleniecki T",
+      "Ciemny MP",
+      "Kuriata A",
+      "Kolinski A",
+      "Kmiecik S"
+    ],
+    "pmid": "30101282"
+  },
+  "Shindyalov 1998 CE alignment": {
+    "doi": "10.1093/protein/11.9.739",
+    "valid": true,
+    "title": "Protein structure alignment by incremental combinatorial extension (CE) of the optimal path",
+    "journal": "Protein Engineering Design and Selection",
+    "year": 1998,
+    "volume": "11",
+    "issue": "9",
+    "page": "739-747",
+    "authors": [
+      "Shindyalov IN",
+      "Bourne PE"
+    ],
+    "pmid": "9796821"
+  },
+  "Lipinski 2001 Ro5": {
+    "doi": "10.1016/S0169-409X(00)00129-0",
+    "valid": true,
+    "title": "Experimental and computational approaches to estimate solubility and permeability in drug discovery and development settings 1PII of original article: S0169-409X(96)00423-1. The article was originally published in Advanced Drug Delivery Reviews 23 (1997) 3\u201325. 1",
+    "journal": "Advanced Drug Delivery Reviews",
+    "year": 2001,
+    "volume": "46",
+    "issue": "1-3",
+    "page": "3-26",
+    "authors": [
+      "Lipinski CA",
+      "Lombardo F",
+      "Dominy BW",
+      "Feeney PJ"
+    ],
+    "pmid": "11259830"
+  },
+  "Veber 2002": {
+    "doi": "10.1021/jm020017n",
+    "valid": true,
+    "title": "Molecular Properties That Influence the Oral Bioavailability of Drug Candidates",
+    "journal": "J. Med. Chem.",
+    "year": 2002,
+    "volume": "45",
+    "issue": "12",
+    "page": "2615-2623",
+    "authors": [
+      "Veber DF",
+      "Johnson SR",
+      "Cheng H",
+      "Smith BR",
+      "Ward KW",
+      "Kopple KD"
+    ],
+    "pmid": "12036371"
+  },
+  "Baell 2010 PAINS": {
+    "doi": "10.1021/jm901137j",
+    "valid": true,
+    "title": "New Substructure Filters for Removal of Pan Assay Interference Compounds (PAINS) from Screening Libraries and for Their Exclusion in Bioassays",
+    "journal": "J. Med. Chem.",
+    "year": 2010,
+    "volume": "53",
+    "issue": "7",
+    "page": "2719-2740",
+    "authors": [
+      "Baell JB",
+      "Holloway GA"
+    ],
+    "pmid": "20131845"
+  },
+  "Brenk 2008 unwanted fragments": {
+    "doi": "10.1002/cmdc.200700139",
+    "valid": true,
+    "title": "Lessons Learnt from Assembling Screening Libraries for Drug Discovery for Neglected Diseases",
+    "journal": "ChemMedChem",
+    "year": 2008,
+    "volume": "3",
+    "issue": "3",
+    "page": "435-444",
+    "authors": [
+      "Brenk R",
+      "Schipani A",
+      "James D",
+      "Krasowski A",
+      "Gilbert IH",
+      "Frearson J",
+      "Wyatt PG"
+    ],
+    "pmid": "18064617"
+  },
+  "Daina 2017 SwissADME": {
+    "doi": "10.1038/srep42717",
+    "valid": true,
+    "title": "SwissADME: a free web tool to evaluate pharmacokinetics, drug-likeness and medicinal chemistry friendliness of small molecules",
+    "journal": "Sci Rep",
+    "year": 2017,
+    "volume": "7",
+    "issue": "1",
+    "page": "42717",
+    "authors": [
+      "Daina A",
+      "Michielin O",
+      "Zoete V"
+    ],
+    "pmid": "28256516"
+  },
+  "Egan 2000 absorption": {
+    "doi": "10.1021/jm000292e",
+    "valid": true,
+    "title": "Prediction of Drug Absorption Using Multivariate Statistics",
+    "journal": "J. Med. Chem.",
+    "year": 2000,
+    "volume": "43",
+    "issue": "21",
+    "page": "3867-3877",
+    "authors": [
+      "Egan WJ",
+      "Merz, KM",
+      "Baldwin JJ"
+    ],
+    "pmid": "11052792"
+  },
+  "Ghose 1999": {
+    "doi": "10.1021/cc9800071",
+    "valid": true,
+    "title": "A Knowledge-Based Approach in Designing Combinatorial or Medicinal Chemistry Libraries for Drug Discovery. 1. A Qualitative and Quantitative Characterization of Known Drug Databases",
+    "journal": "J. Comb. Chem.",
+    "year": 1998,
+    "volume": "1",
+    "issue": "1",
+    "page": "55-68",
+    "authors": [
+      "Ghose AK",
+      "Viswanadhan VN",
+      "Wendoloski JJ"
+    ],
+    "pmid": "10746014"
+  },
+  "Hopkins 2004 ligand efficiency": {
+    "doi": "10.1016/S1359-6446(04)03069-7",
+    "valid": true,
+    "title": "Ligand efficiency: a useful metric for lead selection",
+    "journal": "Drug Discovery Today",
+    "year": 2004,
+    "volume": "9",
+    "issue": "10",
+    "page": "430-431",
+    "authors": [
+      "Hopkins AL",
+      "Groom CR",
+      "Alex A"
+    ],
+    "pmid": "15109945"
+  },
+  "Decroly 2011 viral RNA capping": {
+    "doi": "10.1038/nrmicro2675",
+    "valid": true,
+    "title": "Conventional and unconventional mechanisms for capping viral mRNA",
+    "journal": "Nat Rev Microbiol",
+    "year": 2011,
+    "volume": "10",
+    "issue": "1",
+    "page": "51-65",
+    "authors": [
+      "Decroly E",
+      "Ferron F",
+      "Lescar J",
+      "Canard B"
+    ],
+    "pmid": "22138959"
+  },
+  "Landrum RDKit (Bento 2020 alt)": {
+    "doi": "10.1186/s13321-020-00456-1",
+    "valid": true,
+    "title": "An open source chemical structure curation pipeline using RDKit",
+    "journal": "J Cheminform",
+    "year": 2020,
+    "volume": "12",
+    "issue": "1",
+    "page": "51",
+    "authors": [
+      "Bento AP",
+      "Hersey A",
+      "F\u00e9lix E",
+      "Landrum G",
+      "Gaulton A",
+      "Atkinson F",
+      "Bellis LJ",
+      "De Veij M",
+      "Leach AR"
+    ],
+    "pmid": "33431044"
+  },
+  "Jamroz 2013 CABS vs all-atom MD": {
+    "doi": "10.1021/ct300854w",
+    "valid": true,
+    "title": "Consistent View of Protein Fluctuations from All-Atom Molecular Dynamics and Coarse-Grained Dynamics with Knowledge-Based Force-Field",
+    "journal": "J. Chem. Theory Comput.",
+    "year": 2012,
+    "volume": "9",
+    "issue": "1",
+    "page": "119-125",
+    "authors": [
+      "Jamroz M",
+      "Orozco M",
+      "Kolinski A",
+      "Kmiecik S"
+    ],
+    "pmid": "26589015"
+  },
+  "Jamroz 2013 CABS-flex server": {
+    "doi": "10.1093/nar/gkt332",
+    "valid": true,
+    "title": "CABS-flex: server for fast simulation of protein structure fluctuations",
+    "journal": "Nucleic Acids Research",
+    "year": 2013,
+    "volume": "41",
+    "issue": "W1",
+    "page": "W427-W431",
+    "authors": [
+      "Jamroz M",
+      "Kolinski A",
+      "Kmiecik S"
+    ],
+    "pmid": "23658222"
+  },
+  "Kmiecik 2016 CG models review": {
+    "doi": "10.1021/acs.chemrev.6b00163",
+    "valid": true,
+    "title": "Coarse-Grained Protein Models and Their Applications",
+    "journal": "Chemical Reviews",
+    "year": 2016,
+    "volume": "116",
+    "issue": "14",
+    "page": "7898-7936",
+    "authors": [
+      "Kmiecik S",
+      "Gront D",
+      "Kolinski M",
+      "Wieteska L",
+      "Dawid AE",
+      "Kolinski A"
+    ],
+    "pmid": "27333362"
+  },
+  "De la Pena 2007 vaccinia N7-MTase": {
+    "doi": "10.1038/sj.emboj.7601912",
+    "valid": true,
+    "title": "Structural insights into the mechanism and evolution of the vaccinia virus mRNA cap N7 methyl\u2010transferase",
+    "journal": "EMBO J",
+    "year": 2007,
+    "volume": "26",
+    "issue": "23",
+    "page": "4913-4925",
+    "authors": [
+      "De la Pe\u00f1a M",
+      "Kyrieleis OJ",
+      "Cusack S"
+    ],
+    "pmid": "17989694"
+  },
+  "Kyrieleis 2014 vaccinia capping enzyme": {
+    "doi": "10.1016/j.str.2013.12.014",
+    "valid": true,
+    "title": "Crystal Structure of Vaccinia Virus mRNA Capping Enzyme Provides Insights into the Mechanism and Evolution of the Capping Apparatus",
+    "journal": "Structure",
+    "year": 2014,
+    "volume": "22",
+    "issue": "3",
+    "page": "452-465",
+    "authors": [
+      "Kyrieleis OJ",
+      "Chang J",
+      "de\u00a0la\u00a0Pe\u00f1a M",
+      "Shuman S",
+      "Cusack S"
+    ],
+    "pmid": "24607143"
+  },
+  "Kuriata 2018 dup": {
+    "doi": "10.1093/nar/gky356",
+    "valid": true,
+    "title": "CABS-flex 2.0: a web server for fast simulations of flexibility of protein structures",
+    "journal": "Nucleic Acids Research",
+    "year": 2018,
+    "volume": "46",
+    "issue": "W1",
+    "page": "W338-W343",
+    "authors": [
+      "Kuriata A",
+      "Gierut AM",
+      "Oleniecki T",
+      "Ciemny MP",
+      "Kolinski A",
+      "Kurcinski M",
+      "Kmiecik S"
+    ],
+    "pmid": "29762700"
+  },
+  "Bissantz 2010 medchem contacts": {
+    "doi": "10.1021/jm100112j",
+    "valid": true,
+    "title": "A Medicinal Chemist\u2019s Guide to Molecular Interactions",
+    "journal": "J. Med. Chem.",
+    "year": 2010,
+    "volume": "53",
+    "issue": "14",
+    "page": "5061-5084",
+    "authors": [
+      "Bissantz C",
+      "Kuhn B",
+      "Stahl M"
+    ],
+    "pmid": "20345171"
+  },
+  "Baker & Hubbard 1984 H-bonds": {
+    "doi": "10.1016/0079-6107(84)90007-5",
+    "valid": true,
+    "title": "Hydrogen bonding in globular proteins",
+    "journal": "Progress in Biophysics and Molecular Biology",
+    "year": 1984,
+    "volume": "44",
+    "issue": "2",
+    "page": "97-179",
+    "authors": [
+      "Baker E",
+      "Hubbard R"
+    ],
+    "pmid": "6385134"
+  },
+  "Dunnett 1955": {
+    "doi": "10.1080/01621459.1955.10501294",
+    "valid": true,
+    "title": "A Multiple Comparison Procedure for Comparing Several Treatments with a Control",
+    "journal": "Journal of the American Statistical Association",
+    "year": 1955,
+    "volume": "50",
+    "issue": "272",
+    "page": "1096-1121",
+    "authors": [
+      "Dunnett CW"
+    ],
+    "pmid": null
+  }
+}

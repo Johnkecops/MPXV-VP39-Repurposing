@@ -1,0 +1,4 @@
+{
+  "rule_based": "RDKit descriptors + PAINS/BRENK/NIH filter catalogues",
+  "learned_layer": "TorchDrug layer skipped by request"
+}

@@ -1,0 +1,8 @@
+Ligand,Manuscript_label,HeavyAtoms,Mean_affinity,SD,Mean_LE,SD_LE,cLogP,LELP,Rank_by_affinity,Rank_by_LE
+S-adenosyl-L-homocysteine,SAH,26,-8.067,0.076,0.3103,0.0029,-1.44,-4.64,4,1
+S-adenosyl-L-methionine,SAM,27,-7.691,0.127,0.2849,0.0047,-3.26,-11.44,5,2
+Sinefungin,Sinefungin (control),27,-7.483,0.134,0.2772,0.005,-2.06,-7.43,6,3
+SS148,SS148,28,-7.359,0.019,0.2628,0.0007,-0.96,-3.65,7,4
+SGC8158,PRMT7,38,-8.412,0.287,0.2214,0.0076,3.65,16.49,2,5
+STM957,STM957,42,-8.91,0.02,0.2122,0.0005,1.02,4.81,1,6
+SGC0946,DOT1L,40,-8.148,0.097,0.2037,0.0024,3.61,17.72,3,7

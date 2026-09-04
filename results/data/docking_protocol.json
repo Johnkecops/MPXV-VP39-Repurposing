@@ -1,0 +1,37 @@
+{
+  "receptor": {
+    "pdb_id": "8B07",
+    "chain": "A",
+    "protein_atoms": 2342
+  },
+  "grid_box": {
+    "center_x": -3.496,
+    "center_y": 18.004,
+    "center_z": -33.379,
+    "size_x": 25.0,
+    "size_y": 25.0,
+    "size_z": 25.0,
+    "defined_on": "SFG (27 heavy atoms)"
+  },
+  "search_parameters": {
+    "exhaustiveness": 8,
+    "num_modes": 9,
+    "energy_range": 3,
+    "box_size": 25.0,
+    "seed": 42
+  },
+  "validation": {
+    "ligand": "SFG",
+    "top_pose_affinity_kcal_per_mol": -9.721,
+    "heavy_atom_rmsd_A": 0.815,
+    "atoms_compared": 27,
+    "threshold_A": 2.0,
+    "verdict": "PASS"
+  },
+  "software": {
+    "AutoDock Vina": "AutoDock Vina v1.2.7",
+    "Open Babel": "Open Babel 3.2.1 -- Aug 19 2026 -- 17:28:04",
+    "RDKit": "2026.03.1",
+    "Python": "3.11.16"
+  }
+}

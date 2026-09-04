@@ -1,0 +1,8 @@
+Ligand,MW,cLogP,TPSA_A2,HBD,HBA,RotB,MolarRefractivity,HeavyAtoms,AromaticRings,FractionCsp3,Lipinski_violations,Veber_pass,Ghose_pass,Egan_pass,Passive_GI_absorption_likely,Structural_alerts_n,Structural_alerts
+Sinefungin,381.39,-2.06,208.7,6,10,7,93.1,27,2,0.6,1,False,False,False,False,0,none
+STM957,589.63,1.02,189.7,3,11,7,150.2,42,4,0.286,2,False,False,False,False,1,triple_bond
+SGC0946,618.58,3.61,150.8,5,8,9,159.1,40,3,0.536,1,False,False,False,False,1,Aliphatic_long_chain
+SGC8158,555.1,3.65,131.3,4,9,11,150.8,38,4,0.37,1,False,False,True,True,1,Aliphatic_long_chain
+SS148,408.44,-0.96,193.5,5,10,7,100.1,28,2,0.5,0,False,False,False,False,1,Aliphatic_long_chain
+S-adenosyl-L-methionine,398.45,-3.26,185.5,4,10,7,96.3,27,2,0.6,0,False,False,False,False,2,charged_oxygen_or_sulfur_atoms; sulfonium
+S-adenosyl-L-homocysteine,384.42,-1.44,182.6,5,10,7,93.2,26,2,0.571,0,False,False,False,False,1,Aliphatic_long_chain

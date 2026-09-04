@@ -1,0 +1,13 @@
+{
+  "F": 0.5794,
+  "df_between": 6,
+  "df_within": 1974,
+  "p": 0.747,
+  "eta_squared": 0.00176,
+  "residues_per_profile": 283,
+  "mean_range_A": 0.12,
+  "smallest_reported_SD_A": 0.84,
+  "largest_reported_SD_A": 1.506,
+  "spread_as_fraction_of_smallest_SD": 0.143,
+  "ranking_supportable": false
+}

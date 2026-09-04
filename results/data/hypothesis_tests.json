@@ -1,0 +1,142 @@
+{
+  "alpha": 0.05,
+  "n_runs_per_ligand": 3,
+  "binding_affinity": {
+    "unit": "kcal/mol",
+    "anova_F": 47.537,
+    "anova_p": 1.63e-08,
+    "levene_p": 0.68,
+    "control": "Sinefungin",
+    "comparisons": [
+      {
+        "ligand": "STM957",
+        "mean_difference_vs_control": -1.427,
+        "ci95_low": -1.644,
+        "ci95_high": -1.21,
+        "hedges_g": -11.924,
+        "dunnett_t": -12.71,
+        "dunnett_p": 0.0,
+        "significant": true
+      },
+      {
+        "ligand": "SGC8158",
+        "mean_difference_vs_control": -0.929,
+        "ci95_low": -1.437,
+        "ci95_high": -0.421,
+        "hedges_g": -3.316,
+        "dunnett_t": -8.274,
+        "dunnett_p": 0.0,
+        "significant": true
+      },
+      {
+        "ligand": "SGC0946",
+        "mean_difference_vs_control": -0.6647,
+        "ci95_low": -0.9297,
+        "ci95_high": -0.3996,
+        "hedges_g": -4.548,
+        "dunnett_t": -5.92,
+        "dunnett_p": 0.0002,
+        "significant": true
+      },
+      {
+        "ligand": "S-adenosyl-L-homocysteine",
+        "mean_difference_vs_control": -0.5837,
+        "ci95_low": -0.8307,
+        "ci95_high": -0.3366,
+        "hedges_g": -4.285,
+        "dunnett_t": -5.199,
+        "dunnett_p": 0.0007,
+        "significant": true
+      },
+      {
+        "ligand": "S-adenosyl-L-methionine",
+        "mean_difference_vs_control": -0.2077,
+        "ci95_low": -0.5031,
+        "ci95_high": 0.0877,
+        "hedges_g": -1.275,
+        "dunnett_t": -1.85,
+        "dunnett_p": 0.3071,
+        "significant": false
+      },
+      {
+        "ligand": "SS148",
+        "mean_difference_vs_control": 0.1243,
+        "ci95_low": -0.0925,
+        "ci95_high": 0.3411,
+        "hedges_g": 1.04,
+        "dunnett_t": 1.107,
+        "dunnett_p": 0.7521,
+        "significant": false
+      }
+    ]
+  },
+  "ligand_efficiency": {
+    "unit": "kcal/mol/heavy atom",
+    "anova_F": 296.755,
+    "anova_p": 6.25e-14,
+    "levene_p": 0.713,
+    "control": "Sinefungin",
+    "comparisons": [
+      {
+        "ligand": "STM957",
+        "mean_difference_vs_control": -0.065,
+        "ci95_low": -0.073,
+        "ci95_high": -0.057,
+        "hedges_g": -14.758,
+        "dunnett_t": -19.326,
+        "dunnett_p": 0.0,
+        "significant": true
+      },
+      {
+        "ligand": "SGC8158",
+        "mean_difference_vs_control": -0.0558,
+        "ci95_low": -0.0703,
+        "ci95_high": -0.0413,
+        "hedges_g": -6.98,
+        "dunnett_t": -16.583,
+        "dunnett_p": 0.0,
+        "significant": true
+      },
+      {
+        "ligand": "SGC0946",
+        "mean_difference_vs_control": -0.0735,
+        "ci95_low": -0.0823,
+        "ci95_high": -0.0646,
+        "hedges_g": -15.051,
+        "dunnett_t": -21.839,
+        "dunnett_p": 0.0,
+        "significant": true
+      },
+      {
+        "ligand": "S-adenosyl-L-homocysteine",
+        "mean_difference_vs_control": 0.0331,
+        "ci95_low": 0.0239,
+        "ci95_high": 0.0423,
+        "hedges_g": 6.501,
+        "dunnett_t": 9.843,
+        "dunnett_p": 0.0,
+        "significant": true
+      },
+      {
+        "ligand": "S-adenosyl-L-methionine",
+        "mean_difference_vs_control": 0.0077,
+        "ci95_low": -0.0032,
+        "ci95_high": 0.0186,
+        "hedges_g": 1.275,
+        "dunnett_t": 2.287,
+        "dunnett_p": 0.1527,
+        "significant": false
+      },
+      {
+        "ligand": "SS148",
+        "mean_difference_vs_control": -0.0143,
+        "ci95_low": -0.0224,
+        "ci95_high": -0.0063,
+        "hedges_g": -3.241,
+        "dunnett_t": -4.263,
+        "dunnett_p": 0.0038,
+        "significant": true
+      }
+    ]
+  }
+}

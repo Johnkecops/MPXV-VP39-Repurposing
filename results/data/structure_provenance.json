@@ -1,0 +1,92 @@
+[
+  {
+    "pdb_id": "8B07",
+    "file": "data/raw/pdb/8B07.pdb",
+    "title": "Crystal structure of monkeypox virus methyltransferase VP39 in complex with sinefungin",
+    "method": [
+      "X-RAY DIFFRACTION"
+    ],
+    "resolution_A": 2.05,
+    "citation_title": "Discovery and structural characterization of monkeypox virus methyltransferase VP39 inhibitors reveal similarities to SARS-CoV-2 nsp14 methyltransferase.",
+    "citation_journal": "Nat Commun",
+    "citation_year": 2023,
+    "citation_doi": null,
+    "citation_pubmed": null,
+    "role": "MPXV VP39 2'-O-MTase in complex with sinefungin (docking receptor)"
+  },
+  {
+    "pdb_id": "7TW7",
+    "file": "data/raw/pdb/7TW7.pdb",
+    "title": "Structure of nsp14 N7-MethylTransferase domain fused with TELSAM bound to SAM",
+    "method": [
+      "X-RAY DIFFRACTION"
+    ],
+    "resolution_A": 1.62,
+    "citation_title": "High-resolution structures of the SARS-CoV-2 N7-methyltransferase inform therapeutic development.",
+    "citation_journal": "Nat Struct Mol Biol",
+    "citation_year": 2022,
+    "citation_doi": null,
+    "citation_pubmed": null,
+    "role": "SARS-CoV-2 nsp14 N7-MTase-TELSAM with SAM (manuscript comparison)"
+  },
+  {
+    "pdb_id": "6YZ1",
+    "file": "data/raw/pdb/6YZ1.pdb",
+    "title": "The crystal structure of SARS-CoV-2 nsp10-nsp16 methyltransferase complex with Sinefungin",
+    "method": [
+      "X-RAY DIFFRACTION"
+    ],
+    "resolution_A": 2.4,
+    "citation_title": "Structural analysis of the SARS-CoV-2 methyltransferase complex involved in RNA cap creation bound to sinefungin.",
+    "citation_journal": "Nat Commun",
+    "citation_year": 2020,
+    "citation_doi": null,
+    "citation_pubmed": null,
+    "role": "SARS-CoV-2 nsp10-nsp16 2'-O-MTase with sinefungin (added comparison)"
+  },
+  {
+    "pdb_id": "8FRJ",
+    "file": "data/raw/pdb/8FRJ.pdb",
+    "title": "Structure of nsp14 N7-MethylTransferase domain fused with TELSAM bound to SGC0946",
+    "method": [
+      "X-RAY DIFFRACTION"
+    ],
+    "resolution_A": 1.57,
+    "citation_title": "Structures of SARS-CoV-2 N7-methyltransferase with DOT1L and PRMT7 inhibitors provide a platform for new antivirals.",
+    "citation_journal": "PLoS Pathog",
+    "citation_year": 2023,
+    "citation_doi": null,
+    "citation_pubmed": null,
+    "role": "nsp14-TELSAM with SGC0946 (source of the \"DOT1L\" ligand)"
+  },
+  {
+    "pdb_id": "8FRK",
+    "file": "data/raw/pdb/8FRK.pdb",
+    "title": "Structure of nsp14 N7-MethylTransferase domain fused with TELSAM bound to SGC8158",
+    "method": [
+      "X-RAY DIFFRACTION"
+    ],
+    "resolution_A": 1.61,
+    "citation_title": "Structures of SARS-CoV-2 N7-methyltransferase with DOT1L and PRMT7 inhibitors provide a platform for new antivirals.",
+    "citation_journal": "PLoS Pathog",
+    "citation_year": 2023,
+    "citation_doi": null,
+    "citation_pubmed": null,
+    "role": "nsp14-TELSAM with SGC8158 (source of the \"PRMT7\" ligand)"
+  },
+  {
+    "pdb_id": "9FEH",
+    "file": "data/raw/pdb/9FEH.cif",
+    "title": "Crystal structure of SARS-CoV-2 nsp14 methyltransferase domain in complex with the STM957 inhibitor",
+    "method": [
+      "X-RAY DIFFRACTION"
+    ],
+    "resolution_A": 1.99,
+    "citation_title": "Structure of SARS-CoV-2 MTase nsp14 with the inhibitor STM957 reveals inhibition mechanism that is shared with a poxviral MTase VP39.",
+    "citation_journal": "J Struct Biol X",
+    "citation_year": 2024,
+    "citation_doi": null,
+    "citation_pubmed": null,
+    "role": "nsp14 with STM957-series inhibitor (source of the STM957 ligand)"
+  }
+]

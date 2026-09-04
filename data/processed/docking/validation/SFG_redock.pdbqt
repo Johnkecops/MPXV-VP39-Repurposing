@@ -1,0 +1,78 @@
+REMARK  Name = data/processed/docking/validation/SFG_crystal.pdb
+REMARK  11 active torsions:
+REMARK  status: ('A' for Active; 'I' for Inactive)
+REMARK    1  A    between atoms: N_1  and  CA_2
+REMARK    2  A    between atoms: CA_2  and  C_3
+REMARK    3  A    between atoms: CA_2  and  CB_6
+REMARK    4  A    between atoms: CB_6  and  CG_7
+REMARK    5  A    between atoms: CG_7  and  CD_8
+REMARK    6  A    between atoms: CD_8  and  NE_9
+REMARK    7  A    between atoms: CD_8  and  C5'_10
+REMARK    8  A    between atoms: C5'_10  and  C4'_11
+REMARK    9  A    between atoms: C3'_13  and  O3'_14
+REMARK   10  A    between atoms: C2'_15  and  O2'_16
+REMARK   11  A    between atoms: C1'_17  and  N9_18
+REMARK                            x       y       z     vdW  Elec       q    Type
+REMARK                         _______ _______ _______ _____ _____    ______ ____
+ROOT
+ATOM      1  C4' SFG A 401      -2.882  16.926 -33.084  1.00  0.00    +0.152 C 
+ATOM      2  O4' SFG A 401      -3.321  18.105 -32.374  1.00  0.00    -0.333 OA
+ATOM      3  C3' SFG A 401      -1.403  17.145 -33.439  1.00  0.00    +0.214 C 
+ATOM      4  C2' SFG A 401      -1.094  18.547 -32.887  1.00  0.00    +0.234 C 
+ATOM      5  C1' SFG A 401      -2.489  19.158 -32.807  1.00  0.00    +0.241 C 
+ENDROOT
+BRANCH   5   6
+ATOM      6  N9  SFG A 401      -2.624  20.294 -31.898  1.00  0.00    -0.269 N 
+ATOM      7  C8  SFG A 401      -2.202  20.389 -30.596  1.00  0.00    +0.182 A 
+ATOM      8  N7  SFG A 401      -2.439  21.552 -30.041  1.00  0.00    -0.219 NA
+ATOM      9  C5  SFG A 401      -3.064  22.277 -31.046  1.00  0.00    +0.152 A 
+ATOM     10  C6  SFG A 401      -3.567  23.591 -31.099  1.00  0.00    +0.192 A 
+ATOM     11  N6  SFG A 401      -3.524  24.449 -30.072  1.00  0.00    -0.105 N 
+ATOM     12  N1  SFG A 401      -4.123  24.003 -32.260  1.00  0.00    -0.204 NA
+ATOM     13  C2  SFG A 401      -4.168  23.154 -33.290  1.00  0.00    +0.202 A 
+ATOM     14  N3  SFG A 401      -3.729  21.895 -33.356  1.00  0.00    -0.205 NA
+ATOM     15  C4  SFG A 401      -3.184  21.512 -32.195  1.00  0.00    +0.169 A 
+ATOM     16  H   SFG A 401      -3.894  25.356 -30.172  1.00  0.00    +0.000 HD
+ATOM     17  H   SFG A 401      -3.123  24.173 -29.216  1.00  0.00    +0.000 HD
+ENDBRANCH   5   6
+BRANCH   3  18
+ATOM     18  O3' SFG A 401      -1.208  17.098 -34.849  1.00  0.00    -0.218 OA
+ATOM     19  H   SFG A 401      -1.768  17.766 -35.275  1.00  0.00    +0.000 HD
+ENDBRANCH   3  18
+BRANCH   4  20
+ATOM     20  O2' SFG A 401      -0.273  19.303 -33.769  1.00  0.00    -0.216 OA
+ATOM     21  H   SFG A 401      -0.702  19.364 -34.637  1.00  0.00    +0.000 HD
+ENDBRANCH   4  20
+BRANCH   1  22
+ATOM     22  C5' SFG A 401      -3.186  15.661 -32.302  1.00  0.00    +0.051 C 
+BRANCH  22  23
+ATOM     23  CD  SFG A 401      -3.346  14.418 -33.182  1.00  0.00    +0.094 C 
+BRANCH  23  24
+ATOM     24  NE  SFG A 401      -3.380  13.199 -32.359  1.00  0.00    -0.133 N 
+ATOM     25  H   SFG A 401      -4.191  13.229 -31.741  1.00  0.00    +0.000 HD
+ATOM     26  H   SFG A 401      -2.528  13.142 -31.800  1.00  0.00    +0.000 HD
+ATOM     27  H   SFG A 401      -3.444  12.381 -32.965  1.00  0.00    +0.000 HD
+ENDBRANCH  23  24
+BRANCH  23  28
+ATOM     28  CG  SFG A 401      -4.585  14.499 -34.078  1.00  0.00    +0.021 C 
+BRANCH  28  29
+ATOM     29  CB  SFG A 401      -4.648  13.461 -35.198  1.00  0.00    +0.032 C 
+BRANCH  29  30
+ATOM     30  CA  SFG A 401      -5.632  13.850 -36.308  1.00  0.00    +0.194 C 
+BRANCH  30  31
+ATOM     31  N   SFG A 401      -6.975  14.123 -35.771  1.00  0.00    -0.121 N 
+ATOM     32  H   SFG A 401      -7.601  14.378 -36.535  1.00  0.00    +0.000 HD
+ATOM     33  H   SFG A 401      -6.924  14.892 -35.102  1.00  0.00    +0.000 HD
+ATOM     34  H   SFG A 401      -7.330  13.289 -35.304  1.00  0.00    +0.000 HD
+ENDBRANCH  30  31
+BRANCH  30  35
+ATOM     35  C   SFG A 401      -5.704  12.765 -37.375  1.00  0.00    +0.382 C 
+ATOM     36  O   SFG A 401      -4.742  12.114 -37.726  1.00  0.00    -0.244 OA
+ATOM     37  OXT SFG A 401      -6.905  12.629 -37.873  1.00  0.00    -0.244 OA
+ENDBRANCH  30  35
+ENDBRANCH  29  30
+ENDBRANCH  28  29
+ENDBRANCH  23  28
+ENDBRANCH  22  23
+ENDBRANCH   1  22
+TORSDOF 11

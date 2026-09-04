@@ -1,0 +1,7 @@
+Sinefungin	c1nc(c2c(n1)n(cn2)[C@H]3[C@@H]([C@@H]([C@H](O3)C[C@H](CC[C@@H](C(=O)O)N)N)O)O)N
+STM957	CCN(C[C@@H]1[C@H]([C@H]([C@@H](O1)n2cc(c3c2ncnc3N)C#Cc4cccnc4)O)O)S(=O)(=O)c5ccc(c(c5)C#N)OC
+SGC0946	CC(C)[N@](CCCNC(=O)Nc1ccc(cc1)C(C)(C)C)C[C@@H]2[C@H]([C@H]([C@@H](O2)n3cc(c4c3ncnc4N)Br)O)O
+SGC8158	c1cc(cc(c1)c2ccc(cc2)Cl)CNCCCCSC[C@@H]3[C@H]([C@H]([C@@H](O3)n4cnc5c4ncnc5N)O)O
+SS148	C1=C(C2=C(N=CN=C2N1C3C(C(C(O3)CSCCC(C(=O)O)N)O)O)N)C#N
+S-adenosyl-L-methionine	C[S@@+](CC[C@@H](C(=O)[O-])N)C[C@@H]1[C@H]([C@H]([C@@H](O1)n2cnc3c2ncnc3N)O)O
+S-adenosyl-L-homocysteine	c1nc(c2c(n1)n(cn2)[C@H]3[C@@H]([C@@H]([C@H](O3)CSCC[C@@H](C(=O)O)N)O)O)N

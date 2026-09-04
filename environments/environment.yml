@@ -1,0 +1,25 @@
+# Conda environment for the MPXV VP39 revision pipeline.
+#   conda env create -f environments/environment.yml
+#   conda activate mpxv-revision
+#
+# AutoDock Vina and Open Babel are conda-forge packages: neither installs reliably
+# from PyPI on macOS arm64. TorchDrug is deliberately absent, see ERRORS.md.
+name: mpxv-revision
+channels:
+  - conda-forge
+dependencies:
+  - python=3.11
+  - rdkit=2026.03.1
+  - vina=1.2.7
+  - openbabel=3.2.1
+  - biopython=1.88
+  - numpy
+  - scipy=1.16.3
+  - pandas
+  - matplotlib
+  - pip
+  - pip:
+      - requests
+      - statsmodels
+      - python-docx==1.2.0
+      - pytest

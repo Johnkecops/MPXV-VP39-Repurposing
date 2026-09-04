@@ -1,0 +1,13 @@
+# Python dependencies for the MPXV VP39 revision pipeline.
+# Installed into the conda environment defined in environment.yml; versions are the
+# ones the reported results were produced with on macOS arm64 (Apple M3).
+rdkit==2026.3.1
+biopython==1.88
+numpy>=1.26
+scipy==1.16.3
+pandas>=2.0
+matplotlib>=3.8
+statsmodels>=0.14
+requests>=2.31
+python-docx==1.2.0
+pytest>=8.0
