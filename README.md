@@ -125,7 +125,7 @@ reference list agreeing both ways).
 The scripts were written with shared helpers under `scripts/` and steps 
 under `scripts/`
 
-
+AI Assistance Disclaimer: This codebase was developed with the assistance of Claude Code. While the AI provided code generation, debugging, and structural support, the human developer maintains full responsibility for reviewing, testing, and maintaining all content and functionality.
 
 ## Key references
 
