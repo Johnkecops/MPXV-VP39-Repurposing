@@ -22,7 +22,7 @@ from pathlib import Path
 import pandas as pd
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
-from utils import dock  # noqa: E402
+import dock  # noqa: E402
 
 SEEDS = [42, 20240904, 777]
 
@@ -34,10 +34,31 @@ def main():
     ap.add_argument('--workdir', default='data/processed/docking')
     args = ap.parse_args()
 
+    # SEEDS is the fixed set of run seeds; asking for more runs than it holds
+    # used to return silently fewer, so the operator believed they had run five
+    # replicates while step 07 reported three.
+    if not 1 <= args.runs <= len(SEEDS):
+        raise SystemExit(f'--runs must be between 1 and {len(SEEDS)} '
+                         f'(one per fixed seed in SEEDS), got {args.runs}')
+    if args.runs < 2:
+        print(f'[warn] --runs {args.runs}: step 07 needs at least 2 runs per '
+              f'ligand to estimate a within-group variance')
+
     wd = Path(args.workdir)
-    protocol = json.loads(Path('results/data/docking_protocol.json').read_text())
+    proto_path = Path('results/data/docking_protocol.json')
+    if not proto_path.exists():
+        raise SystemExit(f'{proto_path} not found: run '
+                         f'scripts/03_prepare_and_validate.py first')
+    protocol = json.loads(proto_path.read_text())
     box = protocol['grid_box']
     center = (box['center_x'], box['center_y'], box['center_z'])
+    # The recorded box size is what the Methods quotes, so read it rather than
+    # falling through to dock.DEFAULTS and agreeing only by coincidence.
+    sizes = {box[k] for k in ('size_x', 'size_y', 'size_z') if k in box}
+    if len(sizes) > 1:
+        raise SystemExit(f'non-cubic grid box in {proto_path}: {sorted(sizes)}; '
+                         f'dock.vina takes a single edge length')
+    box_size = sizes.pop() if sizes else None
 
     lig_df = pd.read_csv('results/tables/ligand_identity.csv')
     out_dir = wd / 'runs'
@@ -48,12 +69,18 @@ def main():
         name = row['Correct_compound']
         stem = name.replace(' ', '_')
         lig = wd / 'ligands' / f'{stem}.pdbqt'
+        if not lig.exists():
+            raise SystemExit(f'{lig} not found: run '
+                             f'scripts/03_prepare_and_validate.py first')
         affinities = []
         for i, seed in enumerate(SEEDS[:args.runs], start=1):
             modes = dock.vina(wd / 'VP39_receptor.pdbqt', lig, center,
                               out_dir / f'{stem}_run{i}.pdbqt',
                               out_dir / f'{stem}_run{i}.log',
-                              seed=seed, cpu=args.cpu)
+                              seed=seed, size=box_size, cpu=args.cpu)
+            if not modes:
+                raise RuntimeError(f'no affinity parsed for {name} run {i}: see '
+                                   f'{out_dir / f"{stem}_run{i}.log"}')
             affinities.append(modes[0][1])
         rows.append({
             'Ligand': name,

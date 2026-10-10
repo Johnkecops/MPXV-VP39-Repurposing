@@ -28,14 +28,19 @@ def run(cmd, **kw):
 
 def strip_receptor(pdb_in, pdb_out, chain='A'):
     """Keep protein ATOM records of one chain; drop waters, ions and ligands."""
-    keep = []
+    keep, n_atoms = [], 0
     for line in Path(pdb_in).read_text().splitlines():
-        if line.startswith('ATOM') and line[21] == chain:
+        if len(line) <= 21 or line[21] != chain:
+            continue
+        if line.startswith('ATOM'):
             keep.append(line)
-        elif line.startswith('TER') and len(line) > 21 and line[21] == chain:
+            n_atoms += 1
+        elif line.startswith('TER'):
             keep.append(line)
     Path(pdb_out).write_text('\n'.join(keep) + '\nEND\n')
-    return len(keep)
+    # TER cards are written but not counted: the return value is reported as
+    # "protein atoms" in the Methods provenance.
+    return n_atoms
 
 
 def extract_hetatm(pdb_in, resname, pdb_out, chain='A'):
@@ -67,15 +72,30 @@ def ligand_pdbqt_from_smiles(smiles, name, out_dir, seed=0xF00D):
     """3D conformer from SMILES: ETKDGv3 embedding, MMFF94s minimisation, then pdbqt."""
     out_dir = Path(out_dir)
     out_dir.mkdir(parents=True, exist_ok=True)
-    mol = Chem.AddHs(Chem.MolFromSmiles(smiles))
+    parsed = Chem.MolFromSmiles(smiles)
+    if parsed is None:
+        raise ValueError(f'RDKit could not parse SMILES for {name}: {smiles!r}')
+    mol = Chem.AddHs(parsed)
     params = AllChem.ETKDGv3()
     params.randomSeed = seed
     if AllChem.EmbedMolecule(mol, params) != 0:
         params.useRandomCoords = True
-        AllChem.EmbedMolecule(mol, params)
-    AllChem.MMFFOptimizeMolecule(mol, mmffVariant='MMFF94s', maxIters=2000)
+        # The retry's return code used to be discarded. On a double failure the
+        # molecule has no conformer, MMFFOptimizeMolecule is a silent no-op,
+        # all-zero coordinates get written, and Vina happily docks the collapsed
+        # geometry and returns a plausible-looking affinity.
+        if AllChem.EmbedMolecule(mol, params) != 0:
+            raise RuntimeError(f'could not embed a 3D conformer for {name}')
+    if mol.GetNumConformers() == 0:
+        raise RuntimeError(f'no conformer produced for {name}')
+    if AllChem.MMFFOptimizeMolecule(mol, mmffVariant='MMFF94s',
+                                    maxIters=2000) == 1:
+        print(f'  [warn] {name}: MMFF94s did not converge in 2000 iterations')
     sdf = out_dir / f'{name}.sdf'
-    Chem.SDWriter(str(sdf)).write(mol)
+    # Context-managed: relying on refcount finalisation to flush the writer
+    # risks a file with no `$$$$` terminator if anything raises first.
+    with Chem.SDWriter(str(sdf)) as w:
+        w.write(mol)
     pdbqt = out_dir / f'{name}.pdbqt'
     run(['obabel', '-isdf', str(sdf), '-opdbqt', '-O', str(pdbqt),
          '--partialcharge', 'gasteiger'])
@@ -94,18 +114,30 @@ def ligand_pdbqt_from_pdb(pdb_in, name, out_dir, ph=7.4):
 
 def vina(receptor, ligand, center, out_pdbqt, log, seed,
          size=None, exhaustiveness=None, num_modes=None, energy_range=None, cpu=4):
-    size = size or DEFAULTS['box_size']
+    # `x or DEFAULT` treats an explicit 0 as "unset"; energy_range=0 is a legal
+    # request, so fall back only on None.
+    pick = lambda v, k: DEFAULTS[k] if v is None else v
+    size = pick(size, 'box_size')
     cmd = ['vina',
            '--receptor', str(receptor), '--ligand', str(ligand),
            '--center_x', f'{center[0]:.3f}', '--center_y', f'{center[1]:.3f}',
            '--center_z', f'{center[2]:.3f}',
            '--size_x', f'{size}', '--size_y', f'{size}', '--size_z', f'{size}',
-           '--exhaustiveness', str(exhaustiveness or DEFAULTS['exhaustiveness']),
-           '--num_modes', str(num_modes or DEFAULTS['num_modes']),
-           '--energy_range', str(energy_range or DEFAULTS['energy_range']),
+           '--exhaustiveness', str(pick(exhaustiveness, 'exhaustiveness')),
+           '--num_modes', str(pick(num_modes, 'num_modes')),
+           '--energy_range', str(pick(energy_range, 'energy_range')),
            '--seed', str(seed), '--cpu', str(cpu),
            '--out', str(out_pdbqt)]
-    res = run(cmd)
+    try:
+        res = run(cmd)
+    except subprocess.CalledProcessError as exc:
+        # run() uses check=True, so a Vina failure used to raise before the log
+        # was written: no .log file on disk and a traceback carrying no Vina
+        # diagnostics. Persist whatever it said, then re-raise.
+        Path(log).write_text((exc.stdout or '') + (exc.stderr or ''))
+        raise RuntimeError(
+            f'vina failed (exit {exc.returncode}); diagnostics written to '
+            f'{log}:\n{(exc.stderr or exc.stdout or "").strip()[-2000:]}') from exc
     Path(log).write_text(res.stdout)
     return parse_vina_log(res.stdout)
 
@@ -145,9 +177,17 @@ def named_heavy_atoms(path, models=False):
             el = (line[76:78].strip() or line[12:16].strip()[0]).upper()
             if el.startswith('H'):
                 continue
-            coords[line[12:16].strip()] = (float(line[30:38]),
-                                           float(line[38:46]),
-                                           float(line[46:54]))
+            name = line[12:16].strip()
+            # Pairing is by name, so a repeated name is not a detail: it would
+            # overwrite silently, shrink both atom sets equally, and still pass
+            # the set-equality check below while the RMSD was computed over
+            # fewer atoms than reported.
+            if name in coords:
+                raise RuntimeError(
+                    f'duplicate heavy-atom name {name!r} in {path}: atom names '
+                    f'must be unique for name-based pose matching')
+            coords[name] = (float(line[30:38]), float(line[38:46]),
+                            float(line[46:54]))
     return coords
 
 

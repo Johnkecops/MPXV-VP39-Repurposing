@@ -83,6 +83,8 @@ def main():
     print(f'  range / smallest SD      : {spread / min(sds):.3f}')
     print(f"  ranking supportable      : {res['ranking_supportable']}")
 
+    Path('results/tables').mkdir(parents=True, exist_ok=True)
+    Path('results/data').mkdir(parents=True, exist_ok=True)
     pd.DataFrame({'Complex': names, 'Mean_RMSF_A': means,
                   'SD_A': sds}).to_csv('results/tables/rmsf_summary.csv', index=False)
     Path('results/data/rmsf_test.json').write_text(json.dumps(res, indent=2))

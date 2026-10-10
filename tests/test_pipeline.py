@@ -18,7 +18,12 @@ import pandas as pd
 import pytest
 
 ROOT = Path(__file__).resolve().parent.parent
-sys.path.insert(0, str(ROOT / 'scripts'))
+# ROOT for the `utils` package, ROOT/scripts for `dock` and its siblings. Both are
+# needed, and neither can be left to cwd: `python -m pytest` happens to add cwd to
+# sys.path while the `pytest` console script does not, which made the suite's
+# result depend on how it was invoked.
+sys.path.insert(0, str(ROOT))
+sys.path.insert(1, str(ROOT / 'scripts'))
 
 MANUSCRIPT = ROOT / 'Biologia-26-manuscript AAP - REV ANMA.docx'
 
@@ -42,7 +47,7 @@ def test_ligand_names_are_compounds_not_enzymes():
 
 
 def test_every_ligand_has_a_parsable_structure():
-    from rdkit import Chem
+    Chem = pytest.importorskip('rdkit.Chem')
     df = pd.read_csv(load('results/tables/ligand_identity.csv'))
     assert len(df) == 7
     for _, r in df.iterrows():
@@ -83,10 +88,11 @@ def test_docking_parameters_are_fully_specified():
 
 def test_pose_rmsd_pairs_atoms_by_name_not_index():
     """Regression: positional RMSD gave 8.1 A for a pose that is actually 0.8 A."""
-    from utils import dock
     wd = ROOT / 'data/processed/docking/validation'
     if not (wd / 'SFG_redock_out.pdbqt').exists():
         pytest.skip('validation run not present')
+    pytest.importorskip('rdkit')  # dock imports rdkit at module scope
+    import dock
     rmsd, n = dock.pose_rmsd(wd / 'SFG_crystal.pdb', wd / 'SFG_redock_out.pdbqt')
     assert n == 27
     assert rmsd < 2.0
@@ -199,11 +205,16 @@ def test_citations_and_references_agree_both_ways(manuscript_blocks):
     """Harness G, H and I: no orphan citations, no uncited entries, no bare paragraphs."""
     import subprocess
     out = subprocess.run(
-        [sys.executable, str(ROOT / 'scripts/10_reference_audit.py'),
+        [sys.executable, str(ROOT / 'utils/10_reference_audit.py'),
          '--docx', str(MANUSCRIPT)],
         capture_output=True, text=True, cwd=ROOT)
     assert out.returncode == 0, out.stderr
     report = json.loads((ROOT / 'results/tables/reference_audit.json').read_text())
+    # An empty audit satisfies every list assertion below, and the audit empties
+    # silently whenever the REFERENCES heading is not recognised. Assert it found
+    # something before trusting that it found nothing wrong.
+    assert report['n_reference_entries'] > 0, 'no reference entries parsed'
+    assert report['n_distinct_intext_citations'] > 0, 'no in-text citations parsed'
     assert report['cited_but_not_listed'] == []
     assert report['listed_but_never_cited'] == []
     assert report['year_mismatch_text_vs_list'] == []
@@ -212,5 +223,8 @@ def test_citations_and_references_agree_both_ways(manuscript_blocks):
 
 def test_every_reference_doi_resolved():
     val = json.loads(load('results/data/reference_validation.json').read_text())
+    # `unresolved == []` is also true for an empty validation run, so require that
+    # the run actually validated something first.
+    assert len(val) > 0, 'reference validation produced no records'
     unresolved = [r for r in val if r['doi'] and r['doi_valid'] is False]
     assert unresolved == [], unresolved

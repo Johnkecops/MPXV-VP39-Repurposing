@@ -53,8 +53,19 @@ def build_catalog():
     return FilterCatalog(params)
 
 
+def _alert_text(alert_names, keep=4):
+    """Alert descriptions, saying so when the list is truncated."""
+    if not alert_names:
+        return 'none'
+    shown = '; '.join(alert_names[:keep])
+    hidden = len(alert_names) - keep
+    return f'{shown} (+{hidden} more)' if hidden > 0 else shown
+
+
 def rule_panel(smiles, catalog):
     mol = Chem.MolFromSmiles(smiles)
+    if mol is None:
+        raise ValueError(f'RDKit could not parse SMILES: {smiles!r}')
     mw = Descriptors.MolWt(mol)
     logp = Crippen.MolLogP(mol)
     hbd = rdMolDescriptors.CalcNumHBD(mol)
@@ -63,18 +74,24 @@ def rule_panel(smiles, catalog):
     rotb = rdMolDescriptors.CalcNumRotatableBonds(mol)
     mr = Crippen.MolMR(mol)
     heavy = mol.GetNumHeavyAtoms()
-    arom = len([r for r in mol.GetRingInfo().AtomRings()
-                if all(mol.GetAtomWithIdx(i).GetIsAromatic() for i in r)])
+    # Ghose counts ALL atoms, hydrogens included; heavy-atom count is roughly
+    # half that and would move both ends of the 20-70 window.
+    total_atoms = Chem.AddHs(mol).GetNumAtoms()
+    arom = rdMolDescriptors.CalcNumAromaticRings(mol)
     fcsp3 = rdMolDescriptors.CalcFractionCSP3(mol)
 
     lipinski = sum([mw > 500, logp > 5, hbd > 5, hba > 10])
     veber = rotb <= 10 and tpsa <= 140
     ghose = (160 <= mw <= 480 and -0.4 <= logp <= 5.6
-             and 40 <= mr <= 130 and 20 <= heavy <= 70)
+             and 40 <= mr <= 130 and 20 <= total_atoms <= 70)
     egan = tpsa <= 131.6 and logp <= 5.88
-    # Lipinski-style oral absorption proxy (Daina et al. 2017): TPSA and logP
-    # jointly place a compound inside or outside the "BOILED-Egg" white region.
-    passive_gi = 71 <= tpsa <= 142 and -1 <= logp <= 6
+    # BOILED-Egg (Daina & Zoete 2016) bounds the human-intestinal-absorption
+    # region from ABOVE only: TPSA <= 131.6 and WLOGP <= 5.88. There is no lower
+    # bound in the cited work -- an earlier `71 <= tpsa` floor here excluded most
+    # well-absorbed oral drugs. WLOGP is not available in RDKit, so Crippen
+    # ALOGP is used and the criterion reduces exactly to the Egan egg above;
+    # the column is kept for table continuity and is not independent evidence.
+    passive_gi = egan
 
     alerts = catalog.GetMatches(mol)
     alert_names = sorted({m.GetDescription() for m in alerts})
@@ -87,7 +104,8 @@ def rule_panel(smiles, catalog):
         'Veber_pass': veber, 'Ghose_pass': ghose, 'Egan_pass': egan,
         'Passive_GI_absorption_likely': passive_gi,
         'Structural_alerts_n': len(alert_names),
-        'Structural_alerts': '; '.join(alert_names[:4]) if alert_names else 'none',
+        'Structural_alert_matches_n': len(alerts),
+        'Structural_alerts': _alert_text(alert_names),
     }
 
 
@@ -157,6 +175,7 @@ def main():
             note = 'TorchDrug GIN classifiers trained on MoleculeNet BBBP and ClinTox'
 
     Path('results/tables').mkdir(parents=True, exist_ok=True)
+    Path('results/data').mkdir(parents=True, exist_ok=True)
     df.to_csv('results/tables/admet.csv', index=False)
     Path('results/data/admet_provenance.json').write_text(json.dumps(
         {'rule_based': 'RDKit descriptors + PAINS/BRENK/NIH filter catalogues',

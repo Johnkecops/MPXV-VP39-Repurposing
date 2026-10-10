@@ -75,17 +75,33 @@ def pubchem_by_cid(cid):
     return r.json()['PropertyTable']['Properties'][0]
 
 
+class LookupUnavailable(Exception):
+    """A lookup could not be completed, as distinct from returning no result."""
+
+
 def cid_from_inchikey(inchikey):
-    """PubChem CID for an InChIKey; None when the compound is not deposited."""
+    """PubChem CID for an InChIKey.
+
+    Returns None only when PubChem answered and had no such compound (404).
+    Any other outcome raises LookupUnavailable: swallowing them turned a
+    network failure into the published claim "not deposited" in a manuscript
+    table, with nothing recording that the network, not PubChem, was the
+    source of the answer.
+    """
     if not inchikey:
         return None
     try:
         r = requests.get(f'{PUBCHEM}/inchikey/{inchikey}/cids/JSON', timeout=TIMEOUT)
-        if r.status_code != 200:
-            return None
-        return r.json()['IdentifierList']['CID'][0]
-    except Exception:
+    except requests.RequestException as exc:
+        raise LookupUnavailable(f'PubChem unreachable: {type(exc).__name__}')
+    if r.status_code == 404:
         return None
+    if r.status_code != 200:
+        raise LookupUnavailable(f'PubChem returned HTTP {r.status_code}')
+    try:
+        return r.json()['IdentifierList']['CID'][0]
+    except (ValueError, KeyError, IndexError):
+        raise LookupUnavailable('PubChem response not in the expected shape')
 
 
 def descriptors(smiles):
@@ -115,7 +131,9 @@ def descriptors(smiles):
 
     return {
         'MW': round(mw, 2), 'cLogP': round(logp, 2), 'HBD': hbd, 'HBA': hba,
-        'RotB': rotb, 'TPSA': round(tpsa, 1), 'HeavyAtoms': heavy,
+        # TPSA_A2, matching 08_admet.py: the two manuscript tables previously
+        # labelled the same quantity 'TPSA' and 'TPSA_A2'.
+        'RotB': rotb, 'TPSA_A2': round(tpsa, 1), 'HeavyAtoms': heavy,
         'Lipinski_violations': n_viol,
         'Lipinski_failed_criteria': ', '.join(k for k, v in lip.items() if not v) or 'none',
         'Veber_pass': veber,
@@ -137,15 +155,33 @@ def main():
             info = from_pdb_chemcomp(comp)
             smiles, inchikey = info['smiles'], info['inchikey']
             rec['PDB_chem_comp_name'] = info['pdb_name']
+        lookup_error = None
         if cid is None:
-            cid = cid_from_inchikey(inchikey)
+            try:
+                cid = cid_from_inchikey(inchikey)
+            except LookupUnavailable as exc:
+                lookup_error = str(exc)
+            time.sleep(0.25)        # between the two PubChem calls, not after both
         if smiles is None and cid:
             p = pubchem_by_cid(cid)
             smiles, inchikey = p['ConnectivitySMILES'], p['InChIKey']
 
-        rec['PubChem_CID'] = cid if cid else 'not deposited'
+        if lookup_error:
+            # Distinct from 'not deposited': we did not get an answer. Writing
+            # 'not deposited' here would publish a claim about PubChem's
+            # contents that rests on the state of the network that day.
+            rec['PubChem_CID'] = 'lookup unavailable'
+            rec['PubChem_lookup_error'] = lookup_error
+            print(f'  [warn] {name}: {lookup_error}')
+        else:
+            rec['PubChem_CID'] = cid if cid else 'not deposited'
         rec['Canonical_SMILES'] = smiles
         rec['InChIKey'] = inchikey
+        if not smiles:
+            raise SystemExit(
+                f'no SMILES for {name}: the PDB chem comp carried none and the '
+                f'PubChem lookup did not supply one'
+                + (f' ({lookup_error})' if lookup_error else ''))
         rec.update(descriptors(smiles))
         rows.append(rec)
         print(f"{label:22s} -> {name:26s} CID {str(rec['PubChem_CID']):>12s} "
@@ -157,7 +193,9 @@ def main():
     out.mkdir(parents=True, exist_ok=True)
     df.to_csv(out / 'ligand_identity.csv', index=False)
     Path('data/processed').mkdir(parents=True, exist_ok=True)
-    df[['Correct_compound', 'Canonical_SMILES']].to_csv(
+    # SMILES first, then the name: that is the order `obabel -ismi` and every
+    # other .smi reader expects. Reversed, the name is parsed as the structure.
+    df[['Canonical_SMILES', 'Correct_compound']].to_csv(
         'data/processed/ligands.smi', sep='\t', index=False, header=False)
     (out / 'ligand_identity.json').write_text(json.dumps(rows, indent=2))
     print(f'\n-> {out}/ligand_identity.csv  ({len(df)} ligands)')

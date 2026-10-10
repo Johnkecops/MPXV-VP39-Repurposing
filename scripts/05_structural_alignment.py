@@ -27,6 +27,7 @@ References:
 import argparse
 import json
 import warnings
+from collections import Counter
 from pathlib import Path
 
 import numpy as np
@@ -36,7 +37,13 @@ from Bio.PDB import PDBParser, Selection
 from Bio.PDB.cealign import CEAligner
 from Bio.PDB.Polypeptide import is_aa, index_to_one, three_to_index
 
-warnings.filterwarnings('ignore')
+# Scoped deliberately: a blanket filterwarnings('ignore') here also swallowed
+# PDBConstructionWarning (discontinuous chains, missing residues, duplicate
+# atoms), which is exactly the diagnostic needed when CE-aligning a chain that
+# has just been truncated by residue range. Only the noisy, known-harmless
+# Biopython deprecations are silenced.
+warnings.filterwarnings('ignore', category=DeprecationWarning)
+warnings.filterwarnings('ignore', category=PendingDeprecationWarning)
 
 # name -> (pdb id, chain, residue range to keep, co-crystal ligand resname)
 # 7TW7/8FRJ are TELSAM(ETV6)-nsp14 chimeras: the fusion tag occupies the low residue
@@ -57,6 +64,15 @@ def load_chain(pdb_id, chain_id, resid_range):
     """
     parser = PDBParser(QUIET=True)
     path = Path('data/raw/pdb') / f'{pdb_id}.pdb'
+    if not path.exists():
+        # Step 01 falls back to mmCIF for entries with no legacy PDB format,
+        # and that fallback has already fired in this repo. Say so, rather than
+        # surfacing a bare FileNotFoundError from the parser.
+        alt = path.with_suffix('.cif')
+        hint = (f'; {alt.name} exists, so this entry has no legacy PDB format '
+                f'and needs MMCIFParser' if alt.exists()
+                else '; run scripts/01_fetch_structures.py first')
+        raise SystemExit(f'{path} not found{hint}')
     structure = parser.get_structure(pdb_id, path)
     model = structure[0]
     for ch in [c.id for c in model if c.id != chain_id]:
@@ -107,13 +123,45 @@ def sequence_identity(seq_a, seq_b, mode='global'):
     }
 
 
+def _longest_monotonic(pairs):
+    """Longest subsequence of (i, j) pairs that is increasing in both indices.
+
+    Mutual nearest-neighbour pairs alone are not an alignment: (i, j) and
+    (i+1, j-40) can both be mutual nearest neighbours, so the pair set can run
+    backwards along one chain and pick up residues that are merely spatially
+    adjacent. An alignment has to preserve sequence order, so the crossing
+    pairs are dropped here. Leaving them in drove the reported identity below
+    what random residue pairing would give.
+    """
+    if not pairs:
+        return []
+    pairs = sorted(pairs)                      # increasing in i
+    best = [1] * len(pairs)
+    prev = [-1] * len(pairs)
+    for b in range(len(pairs)):
+        for a in range(b):
+            if pairs[a][1] < pairs[b][1] and best[a] + 1 > best[b]:
+                best[b], prev[b] = best[a] + 1, a
+    end = max(range(len(pairs)), key=lambda k: best[k])
+    chain = []
+    while end != -1:
+        chain.append(pairs[end])
+        end = prev[end]
+    return chain[::-1]
+
+
 def structure_based_identity(chain_ref, chain_tgt, cutoff=5.0):
     """Identity over structurally equivalent residues after CE superposition.
 
     A residue pair is structurally equivalent when the two Ca atoms fall within
-    `cutoff` of each other and each is the other's nearest Ca. This is the standard
-    way to quote identity for remote homologues, and it is defined over the whole
-    domain rather than over a handful of hand-picked atoms.
+    `cutoff` of each other, each is the other's nearest Ca, and the pairing
+    preserves sequence order in both chains. The order constraint is what makes
+    the result an alignment rather than a set of spatial coincidences.
+
+    Note that `ca_rmsd_over_equivalent_pairs_A` is computed only over pairs that
+    passed the `cutoff` filter, so it is bounded above by `cutoff` by
+    construction and is not comparable across targets with different numbers of
+    equivalent pairs. Quote it with the pair count, never alone.
     """
     def ca_list(chain):
         out = []
@@ -135,17 +183,33 @@ def structure_based_identity(chain_ref, chain_tgt, cutoff=5.0):
 
     ref_nn = dist.argmin(axis=1)
     tgt_nn = dist.argmin(axis=0)
-    pairs = [(i, j) for i, j in enumerate(ref_nn)
-             if tgt_nn[j] == i and dist[i, j] <= cutoff]
+    mutual = [(int(i), int(j)) for i, j in enumerate(ref_nn)
+              if tgt_nn[j] == i and dist[i, j] <= cutoff]
+    pairs = _longest_monotonic(mutual)
     if not pairs:
         return {'equivalent_residue_pairs': 0}
 
     ident = sum(1 for i, j in pairs if ref[i][0] == tgt[j][0])
     rms = float(np.sqrt(np.mean([dist[i, j] ** 2 for i, j in pairs])))
+    pct = 100 * ident / len(pairs)
+
+    # Identity expected if the two residue sets were paired at random, from
+    # their own compositions (sum over residue types of f_ref * f_tgt). A
+    # correspondence scoring at or below this carries no signal: it means the
+    # pairing is spatial coincidence, not equivalence, and the identity must
+    # not be quoted as a similarity measurement.
+    ref_counts = Counter(c for c, _, _ in ref)
+    tgt_counts = Counter(c for c, _, _ in tgt)
+    chance = 100 * sum((ref_counts[a] / len(ref)) * (tgt_counts[a] / len(tgt))
+                       for a in set(ref_counts) | set(tgt_counts))
+
     return {
         'equivalent_residue_pairs': len(pairs),
+        'mutual_nn_pairs_before_order_filter': len(mutual),
         'equivalent_pair_cutoff_A': cutoff,
-        'structure_based_identity_pct': round(100 * ident / len(pairs), 1),
+        'structure_based_identity_pct': round(pct, 1),
+        'expected_identity_by_chance_pct': round(chance, 1),
+        'identity_above_chance': bool(pct > chance),
         'ca_rmsd_over_equivalent_pairs_A': round(rms, 3),
         'coverage_of_reference_pct': round(100 * len(pairs) / len(ref), 1),
     }
@@ -160,7 +224,13 @@ def pocket_residues(pdb_id, chain_id, ligand_resname, radius):
            and r.get_resname() == ligand_resname
            for a in r if a.element != 'H']
     if not lig:
-        return []
+        # Returning [] wrote an empty pocket-residue list into the JSON the
+        # Methods draws from, and printed "pocket: 0 residues" as if that were
+        # a finding. Cofactors often sit at a chain interface and get assigned
+        # to the partner chain, which is a setup error, not a result.
+        raise SystemExit(
+            f'{ligand_resname} not found in {pdb_id} chain {chain_id}: check '
+            f'the chain assignment (it may be modelled in another chain)')
     lig_xyz = np.asarray([a.coord for a in lig])
     hits = []
     for res in model[chain_id]:
@@ -183,6 +253,14 @@ def main():
         structure, chain = load_chain(pdb_id, chain_id, rng)
         loaded[name] = (structure, chain, pdb_id)
         seq, resids = sequence_of(chain)
+        if not resids:
+            # sequence_of returns ('', []) for a wrong chain id or a residue
+            # range that excludes everything. resids[0] below then raised an
+            # IndexError on a progress line, saying nothing about the cause.
+            raise SystemExit(
+                f'{name}: no standard residues left in {pdb_id} chain '
+                f'{chain_id} after applying range {rng}; check the chain id '
+                f'and the range against the deposition numbering')
         seqs[name] = seq
         pockets[name] = pocket_residues(pdb_id, chain_id, lig, args.pocket_radius)
         print(f'{name:20s} {pdb_id}:{chain_id}  {len(seq)} residues  '
@@ -222,7 +300,12 @@ def main():
         print(f"  Ca RMSD over those pairs     : "
               f"{rec['ca_rmsd_over_equivalent_pairs_A']:.3f} A")
         print(f"  structure-based identity     : "
-              f"{rec['structure_based_identity_pct']}%")
+              f"{rec['structure_based_identity_pct']}% "
+              f"(chance {rec['expected_identity_by_chance_pct']}%"
+              + ('' if rec['identity_above_chance']
+                 else '; AT OR BELOW CHANCE - the structural correspondence '
+                      'carries no signal, do not quote this as similarity')
+              + ')')
         print(f"  global sequence identity     : "
               f"{rec['global_sequence_identity_pct']}% over "
               f"{rec['global_aligned_columns']} columns")
@@ -230,6 +313,7 @@ def main():
               f"{len(pockets[other])} ({other.split()[-1]})")
 
     Path('results/data').mkdir(parents=True, exist_ok=True)
+    Path('results/tables').mkdir(parents=True, exist_ok=True)
     Path('results/data/structural_alignment.json').write_text(
         json.dumps(results, indent=2))
 

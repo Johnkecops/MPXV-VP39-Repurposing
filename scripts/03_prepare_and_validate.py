@@ -32,20 +32,31 @@ import numpy as np
 import pandas as pd
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
-from utils import dock  # noqa: E402
+import dock  # noqa: E402
 
 
 def software_versions():
     def v(cmd, first=True):
+        # No shell: `shell=True` let a missing binary exit 127 without raising,
+        # so the old `except` never fired and the version was recorded as ''.
+        # The provenance JSON then carried "AutoDock Vina": "" and the test
+        # asserting 'Vina' in that string failed with an assertion rather than
+        # saying the tool was not installed. Without a shell the same case
+        # raises FileNotFoundError, which is caught here. Some tools print
+        # --version to stderr, which was also being discarded.
         try:
-            out = subprocess.run(cmd, shell=True, capture_output=True, text=True).stdout
-            return out.strip().splitlines()[0] if first and out.strip() else out.strip()
-        except Exception:
-            return 'unavailable'
+            p = subprocess.run(cmd, capture_output=True, text=True)
+        except OSError as exc:
+            return f'unavailable ({type(exc).__name__})'
+        out = (p.stdout or '').strip() or (p.stderr or '').strip()
+        if not out:
+            return (f'unavailable (exit {p.returncode})' if p.returncode
+                    else 'unavailable (no version output)')
+        return out.splitlines()[0] if first else out
     import rdkit
     return {
-        'AutoDock Vina': v('vina --version'),
-        'Open Babel': v('obabel -V'),
+        'AutoDock Vina': v(['vina', '--version']),
+        'Open Babel': v(['obabel', '-V']),
         'RDKit': rdkit.__version__,
         'Python': sys.version.split()[0],
     }
@@ -95,6 +106,11 @@ def main():
     modes = dock.vina(rec_pdbqt, val_lig, center, out_pdbqt,
                       wd / 'validation' / 'SFG_redock.log', seed=42)
 
+    if not modes:
+        raise RuntimeError(
+            f'no affinities parsed from the Vina log at '
+            f'{wd / "validation" / "SFG_redock.log"}: the run may have failed '
+            f'or the log format changed')
     rmsd, n_matched = dock.pose_rmsd(xtal_pdb, out_pdbqt)
     verdict = 'PASS' if rmsd <= args.rmsd_threshold else 'FAIL'
     print(f'\nredocking validation: top pose {modes[0][1]:.2f} kcal/mol, '

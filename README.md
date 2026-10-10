@@ -2,7 +2,7 @@
 
 Computational pipeline supporting the revision of the manuscript *Repurposing SARS-CoV-2
 Methyltransferase Inhibitors Against Monkeypox Virus VP39: A Molecular Docking, Ligand
-Efficiency and Protein Flexibility Study*, **accepted for publication** at journal Biologia / Acta Scientifica.
+Efficiency and Protein Flexibility Study*, **Accepted for publication at** Biologia / Acta Scientifica.
 
 Every number reported in the manuscript is produced by a script in this repository and
 written to `results/`. Nothing in the manuscript text is typed from memory: the applier
@@ -121,11 +121,18 @@ profiles, nsp16 being the closer match, and manuscript integrity (PDB accessions
 Limitations section before Conclusion, no em/en dashes in body prose, citations and
 reference list agreeing both ways).
 
-**Current status: 15 passed, 2 failed.** Both failures are path drift, not analysis errors.
-The scripts were written with shared helpers under `scripts/` and steps 
-under `scripts/`
+**Current status: 25 passed, 0 failed, 5 skipped** in the `mpxv-revision` environment
+(`conda run -n mpxv-revision python -m pytest tests/ -q`). The five skips are the tests
+that open the manuscript `.docx`, which is not in the repository; they skip rather than
+fail. Outside the conda environment the two RDKit-dependent tests also skip, giving
+22 passed.
 
-AI Assistance Disclaimer: This codebase was developed with the assistance of Claude Code. While the AI provided code generation, debugging, and structural support, the human developer maintains full responsibility for reviewing, testing, and maintaining all content and functionality.
+The suite result no longer depends on how it is invoked. `python -m pytest` puts the
+working directory on `sys.path` and the `pytest` console script does not, which used to
+change the outcome between the two; `utils/` and `scripts/` now carry `__init__.py` and
+`tests/` sets both paths explicitly.
+
+
 
 ## Key references
 

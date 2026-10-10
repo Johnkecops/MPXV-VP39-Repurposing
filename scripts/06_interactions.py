@@ -31,30 +31,80 @@ import pandas as pd
 
 POLAR = {'N', 'O'}
 
+# AutoDock atom types carry hybridisation and hydrogen-bond role on top of the
+# element: A is aromatic carbon, OA/NA are acceptors, HD is a polar hydrogen.
+# The type therefore cannot be truncated to its first character -- doing so
+# turns aromatic carbon into element "A", which matches no element test and
+# silently drops every aromatic contact.
+AD_TYPE_TO_ELEMENT = {
+    'A': 'C', 'C': 'C',
+    'N': 'N', 'NA': 'N', 'NS': 'N',
+    'O': 'O', 'OA': 'O', 'OS': 'O',
+    'S': 'S', 'SA': 'S',
+    'H': 'H', 'HD': 'H', 'HS': 'H',
+}
+# Donor geometry: a polar hydrogen sits ~1.0 A from its heavy atom. 1.2 A
+# accepts that bond and nothing else.
+DONOR_H_BOND_A = 1.2
+
+
+def element_of(line):
+    """Element for one PDBQT ATOM/HETATM record.
+
+    Reads the AutoDock type column (78-79) and falls back to the atom name when
+    it is blank, as a plain PDB record would be.
+    """
+    raw = (line[77:79].strip() or line[12:16].strip()[:2]).upper()
+    if raw in AD_TYPE_TO_ELEMENT:
+        return AD_TYPE_TO_ELEMENT[raw]
+    return raw[:2] if raw[:2] in ('CL', 'BR') else raw[:1]
+
+
+def _mark_donors(heavy, polar_h):
+    """Flag N/O atoms carrying a polar hydrogen as hydrogen-bond donors."""
+    if not heavy or not polar_h:
+        return
+    h = np.asarray(polar_h)
+    for a in heavy:
+        if a['element'] in POLAR:
+            d = np.linalg.norm(h - np.asarray(a['xyz']), axis=-1)
+            a['is_donor'] = bool((d <= DONOR_H_BOND_A).any())
+
+
+def _collect(lines, with_residue):
+    """Heavy atoms from PDBQT records, with donors flagged from the HD atoms.
+
+    Polar hydrogens are read before heavy atoms are returned, because they are
+    the only evidence in a PDBQT of which N/O can donate.
+    """
+    heavy, polar_h = [], []
+    for line in lines:
+        if not line.startswith(('ATOM', 'HETATM')):
+            continue
+        el = element_of(line)
+        xyz = (float(line[30:38]), float(line[38:46]), float(line[46:54]))
+        if el == 'H':
+            if line[77:79].strip().upper() == 'HD':
+                polar_h.append(xyz)
+            continue
+        atom = {'name': line[12:16].strip(), 'element': el, 'xyz': xyz,
+                'is_donor': False}
+        if with_residue:
+            atom['resname'] = line[17:20].strip()
+            atom['resid'] = int(line[22:26])
+        heavy.append(atom)
+    _mark_donors(heavy, polar_h)
+    return heavy
+
 
 def parse_receptor(pdbqt):
     """Heavy atoms of the receptor with residue labels."""
-    atoms = []
-    for line in Path(pdbqt).read_text().splitlines():
-        if not line.startswith(('ATOM', 'HETATM')):
-            continue
-        el = (line[77:79].strip() or line[12:16].strip()[0]).upper()
-        el = el[0] if el[:2] not in ('CL', 'BR') else el[:2]
-        if el == 'H':
-            continue
-        atoms.append({
-            'name': line[12:16].strip(),
-            'resname': line[17:20].strip(),
-            'resid': int(line[22:26]),
-            'element': el,
-            'xyz': (float(line[30:38]), float(line[38:46]), float(line[46:54])),
-        })
-    return atoms
+    return _collect(Path(pdbqt).read_text().splitlines(), with_residue=True)
 
 
 def parse_pose(pdbqt, model=1):
     """Heavy atoms of one MODEL in a Vina output file."""
-    atoms, current, capture = [], 0, False
+    block, current, capture = [], 0, False
     for line in Path(pdbqt).read_text().splitlines():
         if line.startswith('MODEL'):
             current = int(line.split()[1])
@@ -64,15 +114,9 @@ def parse_pose(pdbqt, model=1):
             if capture:
                 break
             continue
-        if capture and line.startswith(('ATOM', 'HETATM')):
-            el = (line[77:79].strip() or line[12:16].strip()[0]).upper()
-            el = el[0] if el[:2] not in ('CL', 'BR') else el[:2]
-            if el == 'H':
-                continue
-            atoms.append({'name': line[12:16].strip(), 'element': el,
-                          'xyz': (float(line[30:38]), float(line[38:46]),
-                                  float(line[46:54]))})
-    return atoms
+        if capture:
+            block.append(line)
+    return _collect(block, with_residue=False)
 
 
 def contacts(rec_atoms, lig_atoms, hb_cut, ph_cut):
@@ -80,8 +124,12 @@ def contacts(rec_atoms, lig_atoms, hb_cut, ph_cut):
 
     Hydrogen bonds are reported as putative: they are assigned on donor/acceptor
     heavy-atom distance without an explicit angular term, since the rigid-receptor
-    PDBQT carries only polar hydrogens.
+    PDBQT carries only polar hydrogens. One side of the pair must carry a polar
+    hydrogen, so two acceptors facing each other are not counted.
     """
+    if not rec_atoms or not lig_atoms:
+        raise ValueError('no heavy atoms parsed: check the MODEL block and the '
+                         'AutoDock type column')
     r_xyz = np.asarray([a['xyz'] for a in rec_atoms])
     l_xyz = np.asarray([a['xyz'] for a in lig_atoms])
     dist = np.linalg.norm(r_xyz[:, None, :] - l_xyz[None, :, :], axis=-1)
@@ -95,7 +143,9 @@ def contacts(rec_atoms, lig_atoms, hb_cut, ph_cut):
         key = f"{ra['resname']}{ra['resid']}"
         entry = per_residue[key]
         entry['min_dist'] = min(entry['min_dist'], d)
-        if ra['element'] in POLAR and la['element'] in POLAR and d <= hb_cut:
+        donor_acceptor = ((ra['is_donor'] and la['element'] in POLAR)
+                          or (la['is_donor'] and ra['element'] in POLAR))
+        if donor_acceptor and d <= hb_cut:
             entry['hbond'] += 1
             n_hb += 1
         elif ra['element'] == 'C' and la['element'] == 'C' and d <= ph_cut:
@@ -145,10 +195,13 @@ def main():
 
     df = pd.DataFrame(rows)
     Path('results/tables').mkdir(parents=True, exist_ok=True)
+    Path('results/data').mkdir(parents=True, exist_ok=True)
     df.to_csv('results/tables/interaction_summary.csv', index=False)
     Path('results/data/interaction_detail.json').write_text(json.dumps(detail, indent=2))
-    print(f'\ncriteria: H-bond N/O...N/O <= {args.hbond_cutoff} A, '
-          f'hydrophobic C...C <= {args.hydrophobic_cutoff} A')
+    print(f'\ncriteria: H-bond donor-N/O...acceptor-N/O <= {args.hbond_cutoff} A '
+          f'(donor identified by an attached polar hydrogen), '
+          f'hydrophobic C...C <= {args.hydrophobic_cutoff} A '
+          f'(aromatic carbon included)')
     print('-> results/tables/interaction_summary.csv')
 
 
