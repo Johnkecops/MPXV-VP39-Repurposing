@@ -2,7 +2,7 @@
 
 Computational pipeline supporting the revision of the manuscript *Repurposing SARS-CoV-2
 Methyltransferase Inhibitors Against Monkeypox Virus VP39: A Molecular Docking, Ligand
-Efficiency and Protein Flexibility Study*, under review at journal Biologia / Acta Scientifica.
+Efficiency and Protein Flexibility Study*, **accepted for publication** at journal Biologia / Acta Scientifica.
 
 Every number reported in the manuscript is produced by a script in this repository and
 written to `results/`. Nothing in the manuscript text is typed from memory: the applier
